@@ -1,0 +1,42 @@
+# Publishes the browser version of a playtest on GitHub Pages.
+# The web build is a release asset (Raidbound-Playtest-NN-Web.zip), because its data file
+# is larger than the 100 MB that git accepts.
+name: Web version on GitHub Pages
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag whose Web zip is published
+        required: true
+        default: playtest-48
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Fetch the web build from the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name }}
+        run: |
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern '*-Web.zip' --dir dl
+          mkdir site
+          unzip -q dl/*-Web.zip -d site
+          touch site/.nojekyll
+          ls -la site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4

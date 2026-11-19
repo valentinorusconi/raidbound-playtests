@@ -1,6 +1,8 @@
 # Raidbound: Warbands — Playtest downloads
 
-Playtest builds for Windows, macOS and Linux. Get the latest from **[Releases](https://github.com/valentinorusconi/raidbound-playtests/releases/latest)**.
+**Play in your browser:** https://valentinorusconi.github.io/raidbound-playtests/ (no install; the first load takes a while).
+
+Playtest builds for Windows, macOS and Linux: **[Releases](https://github.com/valentinorusconi/raidbound-playtests/releases/latest)**.
 
 Each release contains one package per platform, the matching offline wiki and SHA-256 checksums. Everyone in a co-op or Arena room needs the same playtest build.
 
